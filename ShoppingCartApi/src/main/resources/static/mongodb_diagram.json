@@ -1,0 +1,135 @@
+{
+  "dbName": "shoppingCartDB",
+  "collections": [
+    {
+      "name": "users",
+      "fields": [
+        {
+          "name": "_id",
+          "type": "ObjectId",
+          "description": "MongoDB automatically generated ID"
+        },
+        {
+          "name": "email",
+          "type": "String",
+          "description": "User email address"
+        },
+        {
+          "name": "favorites",
+          "type": "Array of DBRef",
+          "description": "References to favorite products",
+          "references": "products"
+        },
+        {
+          "name": "cart",
+          "type": "Array of DBRef",
+          "description": "References to products in cart",
+          "references": "products"
+        },
+        {
+          "name": "reviews",
+          "type": "Array of DBRef",
+          "description": "References to reviews written by user",
+          "references": "reviews"
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "fields": [
+        {
+          "name": "_id",
+          "type": "ObjectId",
+          "description": "MongoDB automatically generated ID"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Product name"
+        },
+        {
+          "name": "description",
+          "type": "String",
+          "description": "Product description"
+        },
+        {
+          "name": "price",
+          "type": "Double",
+          "description": "Product price"
+        },
+        {
+          "name": "imageUrl",
+          "type": "String",
+          "description": "URL to product image"
+        },
+        {
+          "name": "category",
+          "type": "String",
+          "description": "Product category"
+        },
+        {
+          "name": "reviews",
+          "type": "Array of DBRef",
+          "description": "References to product reviews",
+          "references": "reviews"
+        }
+      ]
+    },
+    {
+      "name": "reviews",
+      "fields": [
+        {
+          "name": "_id",
+          "type": "ObjectId",
+          "description": "MongoDB automatically generated ID"
+        },
+        {
+          "name": "user",
+          "type": "DBRef",
+          "description": "Reference to user who wrote the review",
+          "references": "users"
+        },
+        {
+          "name": "product",
+          "type": "DBRef",
+          "description": "Reference to product being reviewed",
+          "references": "products"
+        },
+        {
+          "name": "rating",
+          "type": "Integer",
+          "description": "Rating between 1 and 5"
+        },
+        {
+          "name": "comment",
+          "type": "String",
+          "description": "Review comment"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "users",
+      "to": "products",
+      "type": "many-to-many",
+      "via": "favorites"
+    },
+    {
+      "from": "users",
+      "to": "products",
+      "type": "many-to-many",
+      "via": "cart"
+    },
+    {
+      "from": "users",
+      "to": "reviews",
+      "type": "one-to-many"
+    },
+    {
+      "from": "products",
+      "to": "reviews",
+      "type": "one-to-many"
+    }
+  ]
+}
